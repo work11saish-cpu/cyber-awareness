@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberLearn - Home</title>
+<style>
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background: #f7f8fa;
+    color: #333;
+    scroll-behavior: smooth;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background: #1e1e1e;
+    color: #ecf0f1;
+}
+
+/* Header */
+header {
+    background: #2c3e50;
+    color: #fff;
+    text-align: center;
+    padding: 25px 10px;
+}
+header h1 { margin:0; font-size:2em; }
+header p { margin:5px 0 0; font-size:1em; }
+
+/* Navigation */
+nav {
+    background: #34495e;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
+}
+nav a {
+    position: relative;
+    color: #ecf0f1;
+    margin: 5px 15px;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+nav a:hover { background: #1abc9c; }
+nav a:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1abc9c;
+    color: white;
+    padding: 5px 8px;
+    font-size: 12px;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+
+/* Nav Description */
+.nav-description {
+    background: #ecf0f1;
+    text-align: center;
+    padding: 10px 0;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+/* Hero Section */
+.hero {
+    background: #ecf0f1;
+    padding: 50px 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 900px;
+}
+.hero h2 { color: #2c3e50; font-size:2em; }
+.hero p { font-size:1.1em; margin:15px 0; }
+.btn {
+    display: inline-block;
+    margin: 15px 10px;
+    padding: 10px 18px;
+    background: #1abc9c;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+.btn:hover { background: #16a085; }
+
+/* SDG Mapping Section */
+.sdg-mapping {
+    background: #fff;
+    padding: 30px 20px;
+    margin: 20px auto;
+    max-width: 900px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: left;
+}
+.sdg-mapping h2 { color: #2c3e50; margin-bottom:15px; }
+.sdg-mapping ul { padding-left:20px; }
+.sdg-mapping li { margin:8px 0; }
+
+/* SDG Sections */
+.sdg-section {
+    background: #fff;
+    padding: 30px 20px;
+    margin: 20px auto;
+    max-width: 900px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease;
+}
+.sdg-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.sdg-section h2 { color: #2c3e50; margin-bottom:15px; }
+.sdg-section ul { padding-left:20px; }
+.sdg-section a { color:#1abc9c; text-decoration:underline; }
+
+/* Progress Tracker */
+.progress-container { width:100%; background:#ecf0f1; border-radius:20px; margin:15px 0; }
+.progress-bar {
+    width:0%;
+    height:25px;
+    background:#1abc9c;
+    text-align:center;
+    color:#fff;
+    border-radius:20px;
+    line-height:25px;
+    font-weight:bold;
+    transition:width 0.5s;
+}
+.lesson-buttons button {
+    margin:10px 10px 0 0;
+    padding:8px 12px;
+    border:none;
+    border-radius:5px;
+    background:#34495e;
+    color:white;
+    cursor:pointer;
+    transition:background 0.3s;
+}
+.lesson-buttons button:hover { background:#1abc9c; }
+
+/* Search Input */
+.search-container {
+    text-align:center;
+    margin:20px 0;
+}
+.search-container input {
+    padding:8px;
+    width:60%;
+    max-width:400px;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
+
+/* Feedback Stars */
+.feedback { text-align:center; margin:20px 0; }
+.feedback button {
+    background:none;
+    border:none;
+    font-size:25px;
+    cursor:pointer;
+    transition: transform 0.2s;
+}
+.feedback button:hover { transform: scale(1.2); }
+
+/* Drag & Drop Game */
+.game-section { text-align:center; margin:20px 0; }
+.draggable { padding:8px 12px; margin:10px; background:#1abc9c; color:white; display:inline-block; cursor:pointer; border-radius:5px; }
+.dropzone { display:inline-block; width:200px; height:50px; margin:10px; background:#ecf0f1; border:2px dashed #34495e; vertical-align:middle; line-height:50px; }
+
+/* Footer */
+footer { background:#2c3e50; color:#fff; text-align:center; padding:25px 10px; }
+footer h3 { margin-top:0; }
+footer .team-list { list-style:none; padding:0; margin:10px 0; }
+footer .team-list li { margin:5px 0; }
+
+/* Responsive */
+@media screen and (max-width:768px) {
+    nav { flex-direction: column; }
+    nav a { margin:8px 0; }
+    .hero, .sdg-section, .sdg-mapping { margin:15px; padding:30px 15px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>CyberLearn</h1>
+    <p>Cybersecurity Awareness for Everyone</p>
+</header>
+
+<nav>
+    <a href="index.html" data-tooltip="Go to homepage">Home</a>
+    <a href="lessons.html" data-tooltip="Access lessons">Lessons</a>
+    <a href="quiz.html" data-tooltip="Interactive quizzes">Quiz</a>
+    <a href="contact.php" data-tooltip="Send feedback">Contact</a>
+    <a href="#footer" data-tooltip="Meet the CyberLearn team">About Us</a>
+    <button onclick="toggleDarkMode()" style="margin-left:10px;padding:5px 10px;border:none;border-radius:5px;background:#1abc9c;color:white;cursor:pointer;">🌙 Toggle Dark Mode</button>
+</nav>
+
+<div class="nav-description">
+    Navigate through CyberLearn to access lessons, quizzes, and contact support. Hover on the tabs for info.
+</div>
+
+<section class="hero">
+    <h2>Welcome to CyberLearn</h2>
+    <p>Learn essential cybersecurity awareness lessons to stay safe online. This supports <b>SDG 4: Quality Education</b>.</p>
+    <a href="lessons.html" class="btn">Start Learning</a>
+    <a href="quiz.html" class="btn">Take Quiz</a>
+</section>
+
+<!-- SDG Mapping Section -->
+<section class="sdg-mapping">
+    <h2>SDG 4 Mapping - Quality Education</h2>
+    <p>CyberLearn aligns with SDG 4 by integrating digital literacy and cybersecurity awareness into education:</p>
+    <ul>
+        <li>Provides free cybersecurity lessons accessible to all students.</li>
+        <li>Encourages responsible digital behavior and safe online practices.</li>
+        <li>Enhances knowledge of digital threats like phishing, malware, and scams.</li>
+        <li>Supports interactive learning through quizzes, games, and feedback.</li>
+        <li>Empowers students with practical digital skills for modern education.</li>
+    </ul>
+    <!-- Cyber Awareness Resources -->
+<section class="sdg-section">
+    <h2>Learn More About Cybersecurity</h2>
+    <p>Check these blogs and articles to deepen your cybersecurity knowledge:</p>
+    <ul>
+        <li><a href="https://www.cyberaware.gov/" target="_blank">CyberAware – Government Cybersecurity Tips</a></li>
+        <li><a href="https://www.staysafeonline.org/" target="_blank">Stay Safe Online – Cybersecurity Blog</a></li>
+        <li><a href="https://www.kaspersky.com/resource-center" target="_blank">Kaspersky Security Blog</a></li>
+        <li><a href="https://www.microsoft.com/security/blog/" target="_blank">Microsoft Security Blog</a></li>
+    </ul>
+</section>
+
+</section>
+
+<section class="sdg-section">
+    <h2>Search Lessons</h2>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search lessons..." onkeyup="filterLessons()">
+    </div>
+    <ul id="lessonList">
+        <li class="lesson-item">Lesson 1: Online Safety</li>
+        <li class="lesson-item">Lesson 2: Password Security</li>
+        <li class="lesson-item">Lesson 3: Phishing Awareness</li>
+    </ul>
+    
+</section>
+
+<section class="sdg-section">
+    <h2>Your Learning Progress</h2>
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar">0%</div>
+    </div>
+    <div class="lesson-buttons">
+        <button onclick="markCompleted('lesson1')">Lesson 1 Completed</button>
+        <button onclick="markCompleted('lesson2')">Lesson 2 Completed</button>
+        <button onclick="markCompleted('lesson3')">Lesson 3 Completed</button>
+    </div>
+</section>
+
+<section class="sdg-section">
+    <h2>Feedback</h2>
+    <div class="feedback">
+        <button onclick="rate(1)">⭐</button>
+        <button onclick="rate(2)">⭐</button>
+        <button onclick="rate(3)">⭐</button>
+        <button onclick="rate(4)">⭐</button>
+        <button onclick="rate(5)">⭐</button>
+    </div>
+    <p id="feedbackMsg"></p>
+</section>
+
+<section class="sdg-section">
+    <h2>Cyber Awareness Mini Game</h2>
+    <div class="game-section">
+        <div draggable="true" class="draggable" id="safeEmail">Safe Email</div>
+        <div draggable="true" class="draggable" id="phishingEmail">Phishing Email</div>
+        <div class="dropzone" id="safeZone">Drop Safe Here</div>
+        <div class="dropzone" id="phishZone">Drop Phishing Here</div>
+    </div>
+    <p id="gameResult"></p>
+</section>
+
+<footer id="footer">
+    <h3>Project Team</h3>
+    <ul class="team-list">
+        <li>Aarti F – Frontend</li>
+        <li>Saish G – UI/UX Designer</li>
+        <li>Parth G – Debugger</li>
+        <li>Ayush G – Backend</li>
+    </ul>
+    <p>© 2025 CyberLearn | SDG 4 – Quality Education</p>
+</footer>
+
+<script>
+// Dark Mode
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+}
+
+// Lesson Progress Tracker
+document.addEventListener("DOMContentLoaded", updateProgress);
+function markCompleted(lessonId) {
+    let completed = JSON.parse(localStorage.getItem("completedLessons")) || [];
+    if(!completed.includes(lessonId)){
+        completed.push(lessonId);
+        localStorage.setItem("completedLessons", JSON.stringify(completed));
+    }
+    updateProgress();
+}
+function updateProgress() {
+    const completed = JSON.parse(localStorage.getItem("completedLessons")) || [];
+    const totalLessons = 3;
+    const percentage = Math.floor((completed.length / totalLessons) * 100);
+    const progressBar = document.getElementById("progress-bar");
+    progressBar.style.width = percentage+"%";
+    progressBar.textContent = percentage+"% Completed";
+}
+
+// Filter Lessons
+function filterLessons(){
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const items = document.querySelectorAll("#lessonList li");
+    items.forEach(item=>{
+        item.style.display = item.textContent.toLowerCase().includes(input) ? "" : "none";
+    });
+}
+
+// Feedback Rating
+function rate(stars){
+    localStorage.setItem("rating", stars);
+    document.getElementById("feedbackMsg").textContent = "You rated "+stars+" star(s)!";
+}
+
+// Scroll Animations
+const sections = document.querySelectorAll('.sdg-section');
+window.addEventListener('scroll', ()=>{
+    const triggerBottom = window.innerHeight * 0.85;
+    sections.forEach(section=>{
+        const sectionTop = section.getBoundingClientRect().top;
+        if(sectionTop < triggerBottom){
+            section.classList.add('visible');
+        }
+    });
+});
+
+// Drag & Drop Mini Game
+const draggables = document.querySelectorAll('.draggable');
+const dropzones = document.querySelectorAll('.dropzone');
+draggables.forEach(draggable=>{
+    draggable.addEventListener('dragstart', e=>{ e.dataTransfer.setData("text", e.target.id); });
+});
+dropzones.forEach(zone=>{
+    zone.addEventListener('dragover', e=>e.preventDefault());
+    zone.addEventListener('drop', e=>{
+        const id = e.dataTransfer.getData("text");
+        const result = document.getElementById("gameResult");
+        if((id=="safeEmail" && zone.id=="safeZone") || (id=="phishingEmail" && zone.id=="phishZone")){
+            result.textContent="Correct!";
+        } else {
+            result.textContent="Incorrect, try again.";
+        }
+    });
+});
+</script>
+
+</body>
+</html>

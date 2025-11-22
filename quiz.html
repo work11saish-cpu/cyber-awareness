@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberLearn – Quiz</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f6f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #596e84;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #041628;
+        }
+
+        .question-box {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid #596e84;
+            border-radius: 8px;
+        }
+
+        button {
+            background: #596e84;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 22px;
+            text-align: center;
+            font-weight: bold;
+            color: #041628;
+        }
+
+        #timer {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: red;
+        }
+
+        .correct {
+            background: #d4edda;
+        }
+
+        .wrong {
+            background: #f8d7da;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>CyberLearn – Quiz</h2>
+    </header>
+
+    <div class="container">
+
+        <h1>Cybersecurity Quiz</h1>
+
+        <div id="timer">Time Left: <span id="time">30</span> seconds</div>
+
+        <form id="quizForm">
+
+            <!-- Q1 -->
+            <div class="question-box" id="q1box">
+                <p><b>1. What is the safest type of password?</b></p>
+                <input type="radio" name="q1" value="0"> Your name + birthdate<br>
+                <input type="radio" name="q1" value="1"> Long, random mix of characters<br>
+                <input type="radio" name="q1" value="0"> 123456<br>
+            </div>
+
+            <!-- Q2 -->
+            <div class="question-box" id="q2box">
+                <p><b>2. Phishing usually happens through?</b></p>
+                <input type="radio" name="q2" value="1"> Fake emails or messages<br>
+                <input type="radio" name="q2" value="0"> Bluetooth only<br>
+                <input type="radio" name="q2" value="0"> Offline promotions<br>
+            </div>
+
+            <!-- Q3 -->
+            <div class="question-box" id="q3box">
+                <p><b>3. What should you avoid posting on social media?</b></p>
+                <input type="radio" name="q3" value="0"> Motivational quotes<br>
+                <input type="radio" name="q3" value="1"> Personal information & location<br>
+                <input type="radio" name="q3" value="0"> Travel photos after returning<br>
+            </div>
+
+            <!-- Q4 -->
+            <div class="question-box" id="q4box">
+                <p><b>4. What protects your device from malware?</b></p>
+                <input type="radio" name="q4" value="1"> Antivirus software<br>
+                <input type="radio" name="q4" value="0"> Increasing brightness<br>
+                <input type="radio" name="q4" value="0"> Changing wallpaper<br>
+            </div>
+
+            <!-- Q5 -->
+            <div class="question-box" id="q5box">
+                <p><b>5. Public WiFi should be used with caution because?</b></p>
+                <input type="radio" name="q5" value="0"> It is slow<br>
+                <input type="radio" name="q5" value="1"> Hackers can intercept your data<br>
+                <input type="radio" name="q5" value="0"> It drains battery<br>
+            </div>
+
+            <center>
+                <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+                <br><br>
+                <button type="button" onclick="location.reload()">Try Again</button>
+            </center>
+
+        </form>
+
+        <div id="result"></div>
+
+        <br>
+        <a href="index.html">← Back to Home</a>
+
+    </div>
+
+    <script>
+        let timeLeft = 30;
+        let timer = setInterval(function () {
+            document.getElementById("time").textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                submitQuiz();
+            }
+
+            timeLeft--;
+        }, 1000);
+
+        function submitQuiz() {
+            clearInterval(timer);
+
+            let score = 0;
+            let correctAnswers = { q1: 1, q2: 1, q3: 1, q4: 1, q5: 1 };
+
+            for (let q in correctAnswers) {
+                let selected = document.querySelector(`input[name="${q}"]:checked`);
+                let box = document.getElementById(`${q}box`);
+
+                if (selected) {
+                    if (selected.value == correctAnswers[q]) {
+                        score++;
+                        box.classList.add("correct");
+                    } else {
+                        box.classList.add("wrong");
+                    }
+                } else {
+                    box.classList.add("wrong");
+                }
+            }
+
+            document.getElementById("result").innerHTML =
+                `You scored <b>${score}</b> out of <b>5</b> 🎉`;
+        }
+    </script>
+
+</body>
+
+</html>
